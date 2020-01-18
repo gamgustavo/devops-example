@@ -1,5 +1,7 @@
 pipeline {
 
+    agent none
+    
     environment {
         PROJECT = "p02-201504429"
         APP_NAME = "kubeapp"
