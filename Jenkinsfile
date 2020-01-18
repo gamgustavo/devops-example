@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh 'who'
                 sh 'ls'
-                sh "docker build --build-arg version=${APP_VERSION} -t gcr.io/${PROJECT}/app:${APP_VERSION} ."
+                sh "sudo docker build --build-arg version=${APP_VERSION} -t gcr.io/${PROJECT}/app:${APP_VERSION} ."
             }
         }
     }
