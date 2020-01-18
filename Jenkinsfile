@@ -9,14 +9,13 @@ pipeline {
         CLUSTER_ZONE = "us-east1-d"
         APP_VERSION = 1.0
         IMAGE_TAG = "gcr.io/${PROJECT}/app:$APP_VERSION"
-
     }
 
 
     stages {
         stage('build') {
             steps {
-                echo "Hola mundo ${IMAGE_TAG}"
+                sh "gcloud info"
             }
         }
     }
