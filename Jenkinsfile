@@ -15,6 +15,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
+                sh 'who'
                 sh 'ls'
                 sh "docker build --build-arg version=${APP_VERSION} -t gcr.io/${PROJECT}/app:${APP_VERSION} ."
             }
