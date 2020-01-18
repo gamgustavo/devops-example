@@ -1,6 +1,6 @@
 pipeline {
 
-    agent none
+    agent any
     
     environment {
         PROJECT = "p02-201504429"
@@ -15,7 +15,9 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh "gcloud info"
+                container('gcloud') {
+                    sh "info"
+                }
             }
         }
     }
