@@ -15,9 +15,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                container('gcloud') {
-                    sh "info"
-                }
+                echo 'ls'
+                sh "docker build --build-arg version=${APP_VERSION} -t gcr.io/${PROJECT}/app:${APP_VERSION} ."
             }
         }
     }
