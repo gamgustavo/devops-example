@@ -13,12 +13,15 @@ pipeline {
 
 
     stages {
-        stage('build') {
+        stage('build docker image') {
             steps {
-                sh 'who'
-                sh 'ls'
                 sh "docker build --build-arg version=${APP_VERSION} -t gcr.io/${PROJECT}/app:${APP_VERSION} ."
             }
         }
+        stage('publish docker image') {
+            steps {
+                sh "gcloud docker -- push gcr.io/$${PROJECT}/app:${APP_VERSION}"
+            }
+        }        
     }
 }
