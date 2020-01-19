@@ -20,8 +20,17 @@ pipeline {
         }
         stage('publish docker image') {
             steps {
-                sh "gcloud docker -- push gcr.io/${PROJECT}/app:${APP_VERSION}"
+                sh "sudo gcloud docker -- push gcr.io/${PROJECT}/app:${APP_VERSION}"
             }
-        }        
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh "export PROJECT_ID=${PROJECT}"
+                sh "gcloud config set project ${PROJECT}"
+                sh "gcloud config set compute/zone us-east1-d"            
+                sh "gcloud container clusters get-credentials ${CLUSTER} --zone ${CLUSTER_ZONE}  --project ${PROJECT}"   
+                sh 'sed -i.bak "s#PROJECT_ID#$PROJECT_ID#" app-production.yml'
+            }
+        }            
     }
 }
