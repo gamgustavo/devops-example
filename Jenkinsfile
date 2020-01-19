@@ -8,6 +8,8 @@ node {
         CLUSTER_ZONE = "us-east1-d"
         APP_VERSION = 1.0
         IMAGE_TAG = "gcr.io/${PROJECT}/app:$APP_VERSION"
+        IMAGE_DOCKER = "gustavogamboa/devopsapp"
+        IMAGE_PUBLISH = "${IMAGE_DOCKER}:${APP_VERSION}"
     }    
 
     stage('Clone repository') {
@@ -19,7 +21,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("gustavogamboa/devopsapp")
+        app = docker.build("${IMAGE_PUBLISH}")
     }
 
     stage('Test image') {
@@ -35,7 +37,8 @@ node {
 		*/
         docker.withRegistry('https://registry.hub.docker.com', 'DockerHub02') {
             app.push("${env.APP_VERSION}")
+            app.push("latest")
             } 
-        echo "Trying to Push Docker Build to DockerHub"
+            echo "Trying to Push Docker Build to DockerHub"
     }
 }
