@@ -19,7 +19,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("gustavogamboa/devopsapp")
+        app = docker.build("gustavogamboa/devopsapp:1.0")
     }
 
     stage('Test image') {        
