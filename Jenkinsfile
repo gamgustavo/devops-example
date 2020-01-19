@@ -1,5 +1,5 @@
 
-node {
+pipeline {
     def app
     environment {
         PROJECT = "p02-201504429"
