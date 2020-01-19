@@ -21,7 +21,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("${IMAGE_PUBLISH}")
+        app = docker.build("${env.IMAGE_PUBLISH}")
     }
 
     stage('Test image') {
