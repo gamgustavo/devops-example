@@ -8,8 +8,6 @@ node {
         CLUSTER_ZONE = "us-east1-d"
         APP_VERSION = 1.0
         IMAGE_TAG = "gcr.io/${PROJECT}/app:$APP_VERSION"
-        IMAGE_DOCKER = "gustavogamboa/devopsapp"
-        IMAGE_PUBLISH = "${IMAGE_DOCKER}:$APP_VERSION"
     }    
 
     stage('Clone repository') {
@@ -21,7 +19,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("${env.IMAGE_PUBLISH}")
+        app = docker.build("gustavogamboa/devopsapp")
     }
 
     stage('Test image') {
