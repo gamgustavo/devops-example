@@ -1,6 +1,5 @@
 
-pipeline {
-    agent any
+node {
     def app
     environment {
         PROJECT = "p02-201504429"
@@ -11,34 +10,32 @@ pipeline {
         IMAGE_TAG = "gcr.io/${PROJECT}/app:$APP_VERSION"
     }    
 
-    stages{
-        stage('Clone repository') {
-            /* Cloning the Repository to our Workspace */
+    stage('Clone repository') {
+        /* Cloning the Repository to our Workspace */
 
-            checkout scm
+        checkout scm
+    }
+
+    stage('Build image') {
+        /* This builds the actual image */
+
+        app = docker.build("gustavogamboa/devopsapp:1.0")
+    }
+
+    stage('Test image') {        
+        app.inside {
+            echo "Tests passed"
+            sh "ls"
         }
+    }
 
-        stage('Build image') {
-            /* This builds the actual image */
-
-            app = docker.build("gustavogamboa/devopsapp:1.0")
-        }
-
-        stage('Test image') {        
-            app.inside {
-                echo "Tests passed"
-                sh "ls"
-            }
-        }
-
-        stage('Push image') {
-            /* 
-                You would need to first register with DockerHub before you can push images to your account
-            */
-            docker.withRegistry('https://registry.hub.docker.com', 'DockerHub02') {
-                app.push("$APP_VERSION")            
+    stage('Push image') {
+        /* 
+			You would need to first register with DockerHub before you can push images to your account
+		*/
+        docker.withRegistry('https://registry.hub.docker.com', 'DockerHub02') {
+            app.push("1.0")            
             } 
             echo "Trying to Push Docker Build to DockerHub"
-        }
     }
 }
