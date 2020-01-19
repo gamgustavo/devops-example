@@ -1,4 +1,6 @@
 
+
+
 node {
     def app
     environment {
@@ -26,6 +28,7 @@ node {
         app.inside {
             echo "Tests passed"
             sh "ls"
+            sh "echo Jenkinsfile"
         }
     }
 
