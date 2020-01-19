@@ -40,12 +40,10 @@ node {
             echo "Trying to Push Docker Build to DockerHub"
     }
 
-    stage('Deploy App') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "ks8/lb/app-lb.yaml", kubeconfigId: "mykubeconfig")
+    stage('Apply Kubernetes files') {
+            withKubeConfig([credentialsId: 'mykubeconfig02', serverUrl: 'server: https://35.185.38.103']) {
+            sh 'kubectl config list'
         }
-      }
     }
 
 }
