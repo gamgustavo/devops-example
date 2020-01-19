@@ -29,6 +29,8 @@ node {
             echo "Tests passed"
             sh "ls"
             sh "cat Jenkinsfile"
+            sh "gcloud container clusters get-credentials canary --zone us-east1-d  --project p02-201504429"
+            sh "kubectl cluster-info"
         }
     }
 
