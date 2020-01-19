@@ -43,4 +43,13 @@ node {
             } 
             echo "Trying to Push Docker Build to DockerHub"
     }
+
+    stage('Deploy App') {
+      steps {
+        script {
+          kubernetesDeploy(configs: "ks8/lb/app-lb.yaml", kubeconfigId: "mykubeconfig")
+        }
+      }
+    }
+
 }
