@@ -1,5 +1,6 @@
 
 pipeline {
+    agent any
     def app
     environment {
         PROJECT = "p02-201504429"
