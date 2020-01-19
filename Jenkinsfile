@@ -28,7 +28,7 @@ node {
         app.inside {
             echo "Tests passed"
             sh "ls"
-            sh "echo Jenkinsfile"
+            sh "cat Jenkinsfile"
         }
     }
 
