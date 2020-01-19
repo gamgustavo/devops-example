@@ -20,6 +20,7 @@ pipeline {
         }
         stage('publish docker image') {
             steps {
+                sh "gcloud auth configure-docker"
                 sh "yes | gcloud auth configure-docker"
                 sh "gcloud docker -- push gcr.io/${PROJECT}/app:${APP_VERSION}"
             }      
