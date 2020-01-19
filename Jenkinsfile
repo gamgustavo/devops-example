@@ -22,10 +22,10 @@ node {
         app = docker.build("gustavogamboa/devopsapp")
     }
 
-    stage('Test image') {
-        
+    stage('Test image') {        
         app.inside {
             echo "Tests passed"
+            sh "ls"
         }
     }
 
