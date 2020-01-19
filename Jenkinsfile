@@ -1,7 +1,6 @@
-pipeline {
 
-    agent any
-    
+node {
+    def app
     environment {
         PROJECT = "p02-201504429"
         APP_NAME = "kubeapp"
@@ -9,31 +8,35 @@ pipeline {
         CLUSTER_ZONE = "us-east1-d"
         APP_VERSION = 1.0
         IMAGE_TAG = "gcr.io/${PROJECT}/app:$APP_VERSION"
+    }    
+
+    stage('Clone repository') {
+        /* Cloning the Repository to our Workspace */
+
+        checkout scm
     }
 
+    stage('Build image') {
+        /* This builds the actual image */
 
-    stages {
-        stage('build docker image') {
-            steps {
-                sh "gcloud config list"
-                sh "docker build --build-arg version=${APP_VERSION} -t gcr.io/${PROJECT}/app:${APP_VERSION} ."
-            }
+        app = docker.build("gustavogamboa/devopsapp")
+    }
+
+    stage('Test image') {
+        
+        app.inside {
+            echo "Tests passed"
         }
-        stage('publish docker image') {
-            steps {
-                sh "gcloud auth configure-docker"
-                sh "yes | gcloud auth configure-docker"
-                sh "gcloud docker -- push gcr.io/${PROJECT}/app:${APP_VERSION}"
-            }      
-        }
-        stage('Deploy to Kubernetes') {
-            steps {
-                sh "export PROJECT_ID=${PROJECT}"
-                sh "gcloud config set project ${PROJECT}"
-                sh "gcloud config set compute/zone us-east1-d"            
-                sh "gcloud container clusters get-credentials ${CLUSTER} --zone ${CLUSTER_ZONE}  --project ${PROJECT}"   
-                sh 'sed -i.bak "s#PROJECT_ID#$PROJECT_ID#" app-production.yml'
-            }
-        }            
+    }
+
+    stage('Push image') {
+        /* 
+			You would need to first register with DockerHub before you can push images to your account
+		*/
+        docker.withRegistry('https://registry.hub.docker.com', 'DockerHub02') {
+            app.push("${env.APP_VERSION}")
+            app.push("latest")
+            } 
+                echo "Trying to Push Docker Build to DockerHub"
     }
 }
