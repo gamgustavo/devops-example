@@ -9,7 +9,7 @@ node {
         APP_VERSION = 1.0
         IMAGE_TAG = "gcr.io/${PROJECT}/app:$APP_VERSION"
         IMAGE_DOCKER = "gustavogamboa/devopsapp"
-        IMAGE_PUBLISH = "${IMAGE_DOCKER}:${APP_VERSION}"
+        IMAGE_PUBLISH = "${IMAGE_DOCKER}:$APP_VERSION"
     }    
 
     stage('Clone repository') {
