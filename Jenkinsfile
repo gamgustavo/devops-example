@@ -20,7 +20,7 @@ pipeline {
         }
         stage('publish docker image') {
             steps {
-                sh "gcloud docker -- push gcr.io/$${PROJECT}/app:${APP_VERSION}"
+                sh "gcloud docker -- push gcr.io/${PROJECT}/app:${APP_VERSION}"
             }
         }        
     }
