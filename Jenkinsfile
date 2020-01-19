@@ -20,9 +20,7 @@ pipeline {
         }
         stage('publish docker image') {
             steps {
-                container('gcloud') {
-                    sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
-                }                
+                sh "gcloud docker -- push gcr.io/${PROJECT}/app:${APP_VERSION}"
             }      
         }
         stage('Deploy to Kubernetes') {
